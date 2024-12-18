@@ -11,7 +11,7 @@ def is_valid_email(email):
     return re.match(email_patter, email) is not None
 
 
-def contact_form():
+def contact_formPaciente():
     with st.form("contact_form"):
         name = st.text_input("Primer nombre")
         email = st.text_input("dirección email")
@@ -21,3 +21,12 @@ def contact_form():
         if submit_button:
             st.success("información enviada con éxito")
 
+def contact_formMedicinaInterna():
+    with st.form("contact_form"):
+        name = st.text_input("Primer nombre")
+        email = st.text_input("Peso")
+        message = st.text_area("Presión arterial")
+        submit_button = st.form_submit_button("Enviar")
+        
+        if submit_button:
+            st.success("información enviada con éxito")
