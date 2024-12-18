@@ -8,7 +8,7 @@ m,n =df.shape
 JR_m =len(pd.unique(df['Lugar Jornada']))
 #JR_m=df['Lugar Jornada'].nunique()
 
-df = pd.read_excel("BasedeDatosASResearch_Barrios.xlsx")
+df_barrios = pd.read_excel("BasedeDatosASResearch_Barrios.xlsx")
 ####
 # seccion
 ####
@@ -26,11 +26,13 @@ print(df.columns)
 
 
 
+#d = {'col1': [0, 1, 2, 3], 'col2': pd.Series([2, 3], index=[2, 3])}
+#pd.DataFrame(data=d, index=[0, 1, 2, 3])
 
+d = {'Medicina interna': df_barrios['MEDICINA INTERNA'] , 'Salud sexual': df_barrios['SALAUD SEXUAL']}
+print(df_barrios.columns)
 st.header('Cantidad de personas atendidas por jornada')
-chart_data = pd.DataFrame(
-    np.random.randn(20, 3),
-    columns=['a', 'b', 'c'])
+chart_data = pd.DataFrame(data=d)
 
 st.line_chart(chart_data)
 
