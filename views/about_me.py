@@ -19,7 +19,7 @@ with col2:
     st.write(
         "Cuidado y bienestar de los riesgos labores y prevención de riesgo cardiovascular"
     )
-    if st.button(" Crea usuario"):
+    if st.button(" Crea paciente"):
         show_contact_form()
 
 # --- EXPERIENCE 6 QUALIFICATIONS ---
