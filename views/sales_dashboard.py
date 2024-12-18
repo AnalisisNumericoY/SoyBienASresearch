@@ -3,11 +3,12 @@ import pandas as pd
 import numpy as np
  
 st.title("Dashboard Soy Bien")
-df = pd.read_excel("BDMinterna.xlsx")
+df = pd.read_excel("BasedeDatosASResearchCompleta.xlsx")
 m,n =df.shape
 JR_m =len(pd.unique(df['Lugar Jornada']))
 #JR_m=df['Lugar Jornada'].nunique()
 
+df = pd.read_excel("BasedeDatosASResearch_Barrios.xlsx")
 ####
 # seccion
 ####
@@ -17,9 +18,6 @@ c1_1 , c1_2 = st.columns(2)
 
 c1_1.container(border=True).metric("Población atendida", f"{m}", "100")
 c1_2.container(border=True).metric("Jornadas realizadas", f"{JR_m}", "-50") 
-
-
-
 
 
 st.dataframe(df, use_container_width=True)
