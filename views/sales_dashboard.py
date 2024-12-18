@@ -38,3 +38,45 @@ st.line_chart(chart_data)
 
 
 
+st.header('Georeferenciación y cantidad de pacientes por barrio')
+import streamlit as st
+import pandas as pd
+import numpy as np
+import pydeck as pdk
+
+chart_data = pd.DataFrame(
+    np.random.randn(100, 2) / [50, 50] + [6.17, -75.5],
+    columns=["lat", "lon"],
+)
+
+
+st.pydeck_chart(
+    pdk.Deck(
+        map_style=None,
+        initial_view_state=pdk.ViewState(
+            latitude=6.20,
+            longitude=-75.5,
+            zoom=11,
+            pitch=50,
+        ),
+        layers=[
+            pdk.Layer(
+                "HexagonLayer",
+                data=chart_data,
+                get_position="[lon, lat]",
+                radius=200,
+                elevation_scale=4,
+                elevation_range=[0, 1000],
+                pickable=True,
+                extruded=True,
+            ),
+            pdk.Layer(
+                "ScatterplotLayer",
+                data=chart_data,
+                get_position="[lon, lat]",
+                get_color="[200, 30, 0, 160]",
+                get_radius=200,
+            ),
+        ],
+    )
+)
