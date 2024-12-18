@@ -31,14 +31,14 @@ print(df.columns)
 
 d = {'Medicina interna': df_barrios['MEDICINA INTERNA'] , 'Salud sexual': df_barrios['SALAUD SEXUAL']}
 print(df_barrios.columns)
-st.header('Cantidad de personas atendidas por jornada')
+st.subheader('Cantidad de personas atendidas por jornada')
+
 chart_data = pd.DataFrame(data=d)
 
 st.line_chart(chart_data)
 
 
-
-st.header('Georeferenciación y cantidad de pacientes por barrio')
+st.subheader('Georeferenciación y cantidad de pacientes por barrio')
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -80,3 +80,28 @@ st.pydeck_chart(
         ],
     )
 )
+
+
+###################################################################################################
+st.subheader('Distribución de IMC en pacientes atendidos')
+
+import streamlit as st
+import matplotlib.pyplot as plt
+
+df_IMC = df[['Sexo', 'IMC']]
+df_mujer = df_IMC[df_IMC['Sexo']=='Mujer']
+df_mujeres = df_mujer['IMC']
+df_hombre = df_IMC[df_IMC['Sexo']=='Hombre']
+
+
+
+datosIMC = {'Mujeres': df_mujer['IMC'] , 'Hombres': df_hombre['IMC']}
+chart_datosIMC = pd.DataFrame(data=datosIMC)
+
+arr = df_IMC['IMC']
+fig, ax = plt.subplots()
+ax.hist(arr, bins=20)
+print("")
+print(chart_datosIMC)
+print("")
+st.pyplot(fig)
