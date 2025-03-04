@@ -9,12 +9,12 @@ about_page = st.Page(
     icon=":material/account_circle:",
     default=True,
 )
-project_1_page = st.Page(
+servicio_1_page = st.Page(
     page="views/sales_dashboard.py",
     title="Dashboard Soy Bien",
     icon=":material/bar_chart:",
 )
-project_2_page = st.Page(
+servicio_2_page = st.Page(
     page="views/chatbot.py",
     title="Conversa con Soy Bien",
     icon=":material/smart_toy:",
@@ -27,7 +27,7 @@ project_2_page = st.Page(
 pg = st.navigation(
     {
         "Info": [about_page], 
-        "Projects": [project_1_page, project_2_page],
+        "Servicios": [servicio_1_page, servicio_2_page],
     }
 )
 
