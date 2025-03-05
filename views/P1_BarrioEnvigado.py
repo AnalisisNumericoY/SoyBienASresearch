@@ -23,7 +23,7 @@ st.write(
 #
 
 with st.container():
-    st.write("Este es un contenedor que puede expandirse.")
+    st.write("En este contenedor van las analíticas.")
 
 tab1, tab2 = st.tabs(["Pestaña 1", "Pestaña 2"])
 
