@@ -19,7 +19,16 @@ servicio_2_page = st.Page(
     title="Conversa con Soy Bien",
     icon=":material/smart_toy:",
 )
-
+proeyecto_1_page = st.Page(
+    page="views/P1_BarrioEnvigado.py",
+    title="Mi Barrio Envigado",
+    icon=":material/smart_toy:",
+)
+proeyecto_2_page = st.Page(
+    page="views/P2_Savia_MeCuida.py",
+    title="Savia me cuida",
+    icon=":material/smart_toy:",
+)
 # --- NAVIGATION SETUP [WITHOUT SECTIONS] ---
 #pg = st.navigation(pages=[about_page, project_1_page, project_2_page])
 
@@ -28,6 +37,7 @@ pg = st.navigation(
     {
         "Info": [about_page], 
         "Servicios": [servicio_1_page, servicio_2_page],
+        "Proyectos": [proeyecto_1_page, proeyecto_2_page],
     }
 )
 
