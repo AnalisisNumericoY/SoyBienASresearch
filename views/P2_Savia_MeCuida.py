@@ -29,6 +29,13 @@ st.write(f"Total de personas atendidas en el proyecto: {m:.2f}")
 
 dfDatos2 = pd.read_csv(url2)
 
+
+gsheetid_Anticoagulados='1n869pp61pyY9NgH3THKdafIvsCdvQYHJ6n4r05O60u0'
+sheetid3='296901355#gid=296901355'
+url3 = f'https://docs.google.com/spreadsheets/d/{gsheetid_Anticoagulados}/export?format=csv&gid={sheetid3}'
+dfDatos3 = pd.read_csv(url3)
+
+
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["Insuficiencia Cardiaca", "Riesgo Cardiovascular", "EPOC","Anticuagulados", "Protección Renal"])
 
 with tab1:
@@ -44,7 +51,9 @@ with tab3:
     st.write("Programa EPOC")
 
 with tab4:
-    st.write("Programa Anticuagulados")
+    st.write("Programa Anticoagulados")
+    print(dfDatos3)
+    st.dataframe(dfDatos3, use_container_width=True)
 
 with tab5:
     st.write("Programa Protección Renal")
