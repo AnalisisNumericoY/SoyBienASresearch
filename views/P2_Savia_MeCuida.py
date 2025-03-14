@@ -40,10 +40,11 @@ dfDatos2 = pd.read_csv(url2)
 #
 # Datos ANTICOAGULADOS Datos ANTICOAGULADOS Datos ANTICOAGULADOS Datos ANTICOAGULADOS Datos ANTICOAGULADOS Datos ANTICOAGULADOS 
 #
-gsheetid_Anticoagulados='1n869pp61pyY9NgH3THKdafIvsCdvQYHJ6n4r05O60u0'
-sheetid3='296901355#gid=296901355'
+gsheetid_Anticoagulados='1dr11Za06_6riF8h0Dzw6iIYmAcQY-UjR59kGQvo7aMg'
+sheetid3='909398495#gid=909398495'
 url3 = f'https://docs.google.com/spreadsheets/d/{gsheetid_Anticoagulados}/export?format=csv&gid={sheetid3}'
 dfDatos_P1_Anticoagulados = pd.read_csv(url3)
+
 
 #
 # Datos INSUFICIENCIA CARDIACA Datos INSUFICIENCIA CARDIACA Datos INSUFICIENCIA CARDIACA Datos INSUFICIENCIA CARDIACA Datos
