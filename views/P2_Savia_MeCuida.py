@@ -74,7 +74,6 @@ dfDatos_P3_RiesgoCardiovascular = pd.read_csv(url_P3)
 
 
 
-
 tab1, tab2, tab3, tab4 = st.tabs(["Insuficiencia Cardiaca", "Riesgo Cardiovascular", "EPOC","Anticoagulados"])
 
 with tab1:
@@ -100,11 +99,156 @@ with tab4:
 #                                                            https://www.youtube.com/watch?v=1CC9mCzwgK4
 ######################################################
 
-# Supongamos que dfDatos1 es tu DataFrame
+# Se crea una columna que se llame Total para usarla como el eje y en las graficas del Drill
+dfDatos1["Total"]=1
 # Convertimos la columna FECHA_TOMA_DATO a datetime
 dfDatos1['FECHA_TOMA_DATO'] = pd.to_datetime(dfDatos1['FECHA_TOMA_DATO'], format='%d/%m/%Y')
 # Extraemos el mes y el año de la fecha
 dfDatos1['MES'] = dfDatos1['FECHA_TOMA_DATO'].dt.to_period('M')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Función para generar agrupaciones de fechas (trimestre, mes, año)
+def generarGruposFecha(df, columnaFecha):
+    df["Trimestre"] = df[columnaFecha].dt.to_period('Q').astype(str).str.replace("Q", "T")
+    df["Mes"] = df[columnaFecha].dt.to_period('M').astype(str)
+    df["Año"] = df[columnaFecha].dt.to_period('Y').astype(str)
+    return df
+
+# Aplicar la función para generar las agrupaciones de fecha
+dfAtiende = generarGruposFecha(dfDatos1, "FECHA_TOMA_DATO")
+
+# Función para generar datos para un gráfico dado un grupo (ej. ventas por mes)
+def generarDatosPorGrupo(grupo, df):    
+    # return arg list to set x, y and chart title    
+    dfGrupo = df.groupby(grupo)["Total"].sum().reset_index()
+    titulo = f"Pacientes atendidod por {grupo}"
+    return [{'x': [dfGrupo[grupo]], 'y': [dfAtiende["Total"]]}, {'title': titulo}]
+
+# Crear un gráfico de barras para las ventas por día
+figxFecha = px.bar(dfAtiende.groupby("FECHA_TOMA_DATO")["Total"].sum().reset_index(), x="FECHA_TOMA_DATO", y="Total", title="Pacientes por día", text="Total")
+# Agregar botones para cambiar la granularidad del gráfico (día, mes, trimestre)
+figxFecha.update_layout(
+    updatemenus=[
+        dict(
+            type="buttons",
+            direction="left",
+            buttons=list([
+                dict(
+                    args=generarDatosPorGrupo("FECHA_TOMA_DATO", dfAtiende),
+                    label="Día",
+                    method="update"
+                ),
+                dict(
+                    args=generarDatosPorGrupo("Mes", dfAtiende),
+                    label="Mes",
+                    method="update"
+                ),
+                dict(
+                    args=generarDatosPorGrupo("Trimestre", dfAtiende),
+                    label="Trimestre",
+                    method="update"
+                )
+            ]),
+            showactive=True,
+            x=0.8,
+            xanchor="left",
+            y=1.2,
+            yanchor="top"
+        ),
+    ]
+)
+#with st.container(border=True):
+#    st.plotly_chart(figxFecha)
+
+
+#########################################################################################################
+# para esta grafica primero se tiene que extraer el mes y la fecha
+# ######################################################################################################### 
+dfDatos1['FECHA_TOMA_DATO'] = pd.to_datetime(dfDatos1['FECHA_TOMA_DATO'], format='%d/%m/%Y')
+dfDatos1['MES'] = dfDatos1['FECHA_TOMA_DATO'].dt.to_period('M')
+# Convertimos el período 'MES' a string para que sea compatible con Plotly
+dfDatos1['MES'] = dfDatos1['MES'].astype(str)
+
+
+programas_interes = dfDatos1['PROGRAMA'].unique()
+df_filtrado = dfDatos1[dfDatos1['PROGRAMA'].isin(programas_interes)]
+# Agrupar por mes y programa, y contar el número de personas atendidas
+
+#c1, c2 = st.columns([60, 40])
+#with c1:
+df_agrupado = df_filtrado.groupby(['MES', 'PROGRAMA']).size().reset_index(name='PERSONAS_ATENDIDAS')
+
+# Crear la gráfica con Plotly Express
+fig = px.line(df_agrupado, 
+              x='MES', 
+              y='PERSONAS_ATENDIDAS', 
+              color='PROGRAMA', 
+              title='Personas atendidas por programa y mes',
+              labels={'MES': 'Mes', 'PERSONAS_ATENDIDAS': 'Número de personas atendidas'},
+              markers=True)
+#fig.update_xaxes(dtick=1, tickformat='%Y-%m')
+#st.plotly_chart(fig)
+###################################################################################################################################
+# aqui se unen las dos graficas anteriores aqui se unen las dos graficas anteriores  aqui se unen las dos graficas anteriores  
+###################################################################################################################################
+# Dividir la página en dos columnas
+c1, c2 = st.columns(2)
+# Mostrar el gráfico de ventas por fecha en la primera columna
+with c1:
+    with st.container(border=True):
+        st.plotly_chart(figxFecha)
+# Mostrar el gráfico de ventas por producto en la segunda columna
+with c2:
+    with st.container(border=True):
+        st.plotly_chart(fig)
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Filtro por municipio (multiselect)
 municipios = dfDatos1['MUNICIPIOS'].unique()
@@ -158,20 +302,12 @@ with st.container(border=True):
 
 
 
+st.subheader("Programas de EPOC, Anticuagulados, Riesgo Cardiovascular y Protección Renal", anchor=False)
+st.write("oprima click aqui para acceder al sitio privado del proyecto")
 
+dfDatos = dfDatos1
+print(dfDatos)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+st.dataframe(dfDatos, use_container_width=True)
+#st.dataframe(dfDatosTotales, use_container_width=True)
+# Expander básico

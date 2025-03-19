@@ -4,8 +4,8 @@ import pandas as pd  # Para manipulación de datos. Instalar con: pip install pa
 import plotly.express as px  # Para crear gráficos interactivos. Instalar con: pip install plotly
 
 # Configurar el título y el diseño de la página
-st.set_page_config(layout="wide", page_title="Ejemplo drill down con Streamlit y Plotly")
-st.title("Ejemplo drill down con Streamlit y Plotly")
+st.set_page_config(layout="wide", page_title="Pacientes atendidos en el proyecto Savia me cuida")
+st.title("Paciente atendidos Savia me cuida")
 
 # Cargar los datos desde un archivo CSV en línea
 dfSales = pd.read_csv("https://raw.githubusercontent.com/gcastano/datasets/refs/heads/main/datosTiendaTecnologiaLatam.csv", parse_dates=["fecha"])
@@ -29,11 +29,11 @@ dfSales = generarGruposFecha(dfSales, "fecha")
 def generarDatosPorGrupo(grupo, df):    
     # return arg list to set x, y and chart title    
     dfGrupo = df.groupby(grupo)["Total"].sum().reset_index()
-    titulo = f"Ventas por {grupo}"
+    titulo = f"Atendidos por {grupo}"
     return [{'x': [dfGrupo[grupo]], 'y': [dfSales["Total"]]}, {'title': titulo}]
 
 # Crear un gráfico de barras para las ventas por día
-figxFecha = px.bar(dfSales.groupby("fecha")["Total"].sum().reset_index(), x="fecha", y="Total", title="Ventas por día", text="Total")
+figxFecha = px.bar(dfSales.groupby("fecha")["Total"].sum().reset_index(), x="fecha", y="Total", title="Atenciones por día", text="Total")
 # Agregar botones para cambiar la granularidad del gráfico (día, mes, trimestre)
 figxFecha.update_layout(
     updatemenus=[
@@ -69,10 +69,10 @@ figxFecha.update_layout(
 # Función para generar datos para un gráfico de productos por grupo (categoría o producto)
 def generarDatosPorGrupoProducto(grupo, df):    
     dfGrupo = df.groupby(grupo)["Cantidad"].sum().reset_index()
-    return [{'x': [dfGrupo[grupo]], 'y': [dfGrupo["Cantidad"]], 'text': [dfGrupo["Cantidad"]]}, {'title': f"Ventas por {grupo}"}]
+    return [{'x': [dfGrupo[grupo]], 'y': [dfGrupo["Cantidad"]], 'text': [dfGrupo["Cantidad"]]}, {'title': f"Atendidos por {grupo}"}]
 
 # Crear un gráfico de barras para las ventas por categoría
-figxProducto = px.bar(dfSales.groupby(["categoría"])["Cantidad"].sum().reset_index(), x="categoría", y="Cantidad", title="Ventas por categoría", text="Cantidad")
+figxProducto = px.bar(dfSales.groupby(["categoría"])["Cantidad"].sum().reset_index(), x="categoría", y="Cantidad", title="Atendidos por categoría", text="Cantidad")
 # Agregar botones para cambiar la granularidad (categoría, producto)
 figxProducto.update_layout(
     updatemenus=[
@@ -116,11 +116,11 @@ with c2:
 def generarDrillDownFecha():
     parNivel = st.segmented_control("Nivel de detalle", ["Día", "Mes", "Trimestre"], default="Día")
     if parNivel == "Día":
-        fig = px.bar(dfSales.groupby("fecha")["Total"].sum().reset_index(), x="fecha", y="Total", title="Ventas por día")
+        fig = px.bar(dfSales.groupby("fecha")["Total"].sum().reset_index(), x="fecha", y="Total", title="Atenciones por día")
     elif parNivel == "Mes":
-        fig = px.bar(dfSales.groupby("Mes")["Total"].sum().reset_index(), x="Mes", y="Total", title="Ventas por mes")
+        fig = px.bar(dfSales.groupby("Mes")["Total"].sum().reset_index(), x="Mes", y="Total", title="Atenciones por mes")
     else:
-        fig = px.bar(dfSales.groupby("Trimestre")["Total"].sum().reset_index(), x="Trimestre", y="Total", title="Ventas por trimestre")
+        fig = px.bar(dfSales.groupby("Trimestre")["Total"].sum().reset_index(), x="Trimestre", y="Total", title="Atendidos por trimestre")
     with st.container(border=True):
         st.plotly_chart(fig)
 
@@ -130,9 +130,9 @@ def generarDrillDownFecha():
 def generarDrillDownProducto():
     parNivel = st.segmented_control("Nivel de detalle", ["Categoría", "Producto"], default="Categoría")
     if parNivel == "Categoría":
-        fig = px.bar(dfSales.groupby("categoría")["Cantidad"].sum().reset_index(), x="categoría", y="Cantidad", title="Ventas por categoría")
+        fig = px.bar(dfSales.groupby("categoría")["Cantidad"].sum().reset_index(), x="categoría", y="Cantidad", title="Pacientes por región")
     else:
-        fig = px.bar(dfSales.groupby("producto")["Cantidad"].sum().reset_index(), x="producto", y="Cantidad", title="Ventas por producto")
+        fig = px.bar(dfSales.groupby("producto")["Cantidad"].sum().reset_index(), x="producto", y="Cantidad", title="Pacientes por región")
     with st.container(border=True):
         st.plotly_chart(fig)
 
@@ -165,7 +165,7 @@ def generarDrillDownStreamlit():
                     dfProducto.groupby("producto")["Cantidad"].sum().reset_index(),
                     x="producto",
                     y="Cantidad",
-                    title=f"Ventas por producto de la categoría {st.session_state.categoriaSeleccionada}",
+                    title=f"Atendidos por municipio de la región {st.session_state.categoriaSeleccionada}",
                     color_discrete_sequence=[st.session_state.colorProducto]
                 )
                 if parDrillUp:
@@ -179,7 +179,7 @@ def generarDrillDownStreamlit():
                     dfSalesCategory,
                     x="categoría",
                     y="Cantidad",
-                    title="Ventas por categoría",
+                    title="Atendidos por categoría",
                     color="categoría",
                     color_discrete_sequence=paletacolor
                 )
