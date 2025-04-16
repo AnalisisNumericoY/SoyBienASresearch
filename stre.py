@@ -1,4 +1,17 @@
-import streamlit as st 
+import sys
+from pathlib import Path
+import os
+# Configuración crítica - Añade esto al INICIO de stre.py
+BASE_DIR = Path(__file__).parent
+sys.path.append(str(BASE_DIR))  # Añade el directorio raíz al path de Python
+
+# Ahora tus imports normales
+import streamlit as st
+
+# Configura paths para assets
+def asset_path(relative_path):
+    return os.path.join(BASE_DIR, 'assets', relative_path)
+
 
 # --- PAGE SETUP ---
 # https://fonts.google.com/icons

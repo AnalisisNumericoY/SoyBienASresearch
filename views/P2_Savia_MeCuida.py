@@ -70,7 +70,7 @@ sheetid_P3='906683604#gid=906683604'
 url_P3 = f'https://docs.google.com/spreadsheets/d/{gsheetid_RiesgoCardiovascular}/export?format=csv&gid={sheetid_P3}'
 dfDatos_P3_RiesgoCardiovascular = pd.read_csv(url_P3)
 
-
+print(f"Aqui los nomnbres\n\n\n\n{dfDatos_P3_RiesgoCardiovascular['Colesterol no HDL (Fórmula: CT-HDL)']}\n\n\n\n")
 
 
 
@@ -105,6 +105,7 @@ dfDatos1["Total"]=1
 dfDatos1['FECHA_TOMA_DATO'] = pd.to_datetime(dfDatos1['FECHA_TOMA_DATO'], format='%d/%m/%Y')
 # Extraemos el mes y el año de la fecha
 dfDatos1['MES'] = dfDatos1['FECHA_TOMA_DATO'].dt.to_period('M')
+
 
 
 
@@ -311,3 +312,36 @@ print(dfDatos)
 st.dataframe(dfDatos, use_container_width=True)
 #st.dataframe(dfDatosTotales, use_container_width=True)
 # Expander básico
+
+
+
+
+
+
+
+
+
+
+
+
+# Importación entre módulos del proyecto (requiere views/__init__.py)
+from views.bibliotecaIndicadores import mostrar_graficos_colesterol_4columnas
+mostrar_graficos_colesterol_4columnas(dfDatos_P3_RiesgoCardiovascular)
+
+
+
+
+
+########################################################################################################################
+#
+#                                              INDICADORES DE RIESGO CARDIOVASCULA
+#
+########################################################################################################################
+from views.bibliotecaIndicadores import mostrar_panel_riesgo_cv, mostrar_resumen_estadistico
+
+mostrar_resumen_estadistico(dfDatos_P3_RiesgoCardiovascular)
+mostrar_panel_riesgo_cv(dfDatos_P3_RiesgoCardiovascular)
+
+#print(dfDatos_P3_RiesgoCardiovascular.columns)
+
+print(dfDatos_P1_InsuficienciaCardiaca.columns)
